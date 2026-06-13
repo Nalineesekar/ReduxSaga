@@ -1,42 +1,866 @@
+/* =============================================================================
+ * GLOBAL STYLES
+ * =============================================================================
+ * 
+ * Clean, minimal CSS for the Student Task Management System.
+ * Uses CSS variables for consistent theming and easy customization.
+ * ============================================================================= */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * CSS Variables (Design Tokens)
+ * ───────────────────────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg: #0f1117;
+  --color-surface: #1a1d27;
+  --color-surface-hover: #252836;
+  --color-border: #2d3040;
+  --color-text: #e4e6ef;
+  --color-text-muted: #8b8fa3;
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  --font-mono: 'Courier New', monospace;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Reset & Base
+ * ───────────────────────────────────────────────────────────────────────────── */
 
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
 }
 
 a {
-  color: inherit;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Layout
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.page-header p {
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+main {
+  min-height: calc(100vh - 70px);
+  padding: 24px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Navbar
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.navbar-brand a {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.navbar-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbar-links a {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+
+.navbar-links a:hover {
+  color: var(--color-text);
+  background: var(--color-surface-hover);
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Buttons
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-border);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Badge
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-danger);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Cards
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Task Card
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.task-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.task-card-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.priority-badge {
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+}
+
+.status-badge {
+  font-size: 0.85rem;
+}
+
+.task-title {
+  margin-bottom: 8px;
+}
+
+.task-title a {
+  color: var(--color-text);
+  font-size: 1.1rem;
+}
+
+.task-title a:hover {
+  color: var(--color-primary);
+}
+
+.task-description {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.task-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.task-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tag {
+  background: var(--color-surface-hover);
+  color: var(--color-text-muted);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status-select {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Task Grid
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Forms
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.task-form {
+  max-width: 700px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-group label small {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--color-surface-hover);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.autosave-indicator {
+  margin-bottom: 16px;
+  padding: 8px 14px;
+  background: var(--color-surface-hover);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+
+.autosave-indicator .saving {
+  color: var(--color-warning);
+}
+
+.autosave-indicator .saved {
+  color: var(--color-success);
+}
+
+.autosave-indicator .pending {
+  color: var(--color-text-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Loading Spinner
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--color-text-muted);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Error Message
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+.error-icon {
+  font-size: 1.2rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Notifications
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.notification-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.notification-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.polling-status {
+  padding: 10px 14px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+}
+
+.polling-status small {
+  color: var(--color-text-muted);
+}
+
+.polling-error {
+  padding: 8px 14px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  color: var(--color-warning);
+}
+
+.pulse {
+  color: var(--color-success);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.notification-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.notification-item:hover {
+  background: var(--color-surface-hover);
+}
+
+.notification-item.unread {
+  background: rgba(99, 102, 241, 0.05);
+  border-left: 3px solid var(--color-primary);
+}
+
+.notification-item.read {
+  opacity: 0.6;
+}
+
+.notif-icon {
+  font-size: 1.2rem;
+}
+
+.notif-content p {
+  margin-bottom: 4px;
+}
+
+.notif-content small {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.empty-state {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 24px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Saga Demo Sections
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.saga-demos {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.demo-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.demo-section h3 {
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+.demo-description {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+}
+
+.demo-description code {
+  background: var(--color-surface-hover);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-primary);
+}
+
+.demo-controls {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.demo-result {
+  flex: 1;
+  min-width: 200px;
+}
+
+.demo-result p {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.result-text {
+  color: var(--color-info);
+}
+
+.success-text {
+  color: var(--color-success);
+}
+
+.error-text {
+  color: var(--color-danger);
+}
+
+.demo-note {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  padding: 10px 14px;
+  background: var(--color-surface-hover);
+  border-radius: var(--radius);
+}
+
+.console-reminder {
+  padding: 16px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Dashboard
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.stat-label {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Profile
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.profile-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  max-width: 500px;
+  text-align: center;
+}
+
+.profile-avatar {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.profile-email {
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.profile-role {
+  display: inline-block;
+  background: var(--color-primary);
+  color: white;
+  padding: 4px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: capitalize;
+}
+
+.profile-bio {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.profile-joined {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Login Page
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.login-container {
+  max-width: 420px;
+  margin: 60px auto;
+}
+
+.login-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-hint {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--color-surface-hover);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.login-hint code {
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Task Detail
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+.task-detail {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  max-width: 700px;
+}
+
+.task-detail h2 {
+  margin-bottom: 16px;
+}
+
+.task-detail-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.meta-item {
+  font-size: 0.9rem;
+}
+
+.meta-item strong {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.task-detail-description {
+  padding: 16px;
+  background: var(--color-surface-hover);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.task-detail-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Responsive
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .navbar-links {
+    justify-content: center;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .task-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task-detail-meta {
+    grid-template-columns: 1fr;
   }
 }
